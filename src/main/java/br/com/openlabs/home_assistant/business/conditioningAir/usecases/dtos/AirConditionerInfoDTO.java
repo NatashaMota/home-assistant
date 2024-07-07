@@ -15,6 +15,8 @@ public record AirConditionerInfoDTO(
         LocalTime turnOffTime,
         LocalTime turnOnTime,
         @NotNull
-        Long cidadeId
+        Long Latitude,
+        @NotNull
+        Long longitude
 ) {
 }

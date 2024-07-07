@@ -29,19 +29,22 @@ public class ConditioningAir {
     @NotNull
     private Boolean manually;
     @NotNull
-    private Long cidadeId;
+    private Long latitude;
+    @NotNull
+    private Long longitude;
 
     public ConditioningAir() {
     }
 
     public ConditioningAir(String name, Boolean state, Integer temperature
-                        , LocalTime turnOffTime, LocalTime turnOnTime, Long cidadeId) {
+                        , LocalTime turnOffTime, LocalTime turnOnTime, Long latitude, Long longitude) {
         setName(name);
         setState(state);
         setTemperature(temperature);
         setTimes(turnOffTime, turnOnTime);
         setManually(false);
-        setCidadeId(cidadeId);
+        setLatitude(latitude);
+        setLongitude(longitude);
     }
 
     public void setTimes(LocalTime turnOffTime, LocalTime turnOnTime) {

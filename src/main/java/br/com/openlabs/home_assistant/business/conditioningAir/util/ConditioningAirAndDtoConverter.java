@@ -12,7 +12,8 @@ public class ConditioningAirAndDtoConverter {
                 conditioningAir.getTemperature(),
                 conditioningAir.getTurnOffTime(),
                 conditioningAir.getTurnOnTime(),
-                conditioningAir.getCidadeId()
+                conditioningAir.getLatitude(),
+                conditioningAir.getLongitude()
         );
     }
 
@@ -23,7 +24,8 @@ public class ConditioningAirAndDtoConverter {
                 airConditionerInfoDTO.temperature(),
                 airConditionerInfoDTO.turnOffTime(),
                 airConditionerInfoDTO.turnOnTime(),
-                airConditionerInfoDTO.cidadeId()
+                airConditionerInfoDTO.Latitude(),
+                airConditionerInfoDTO.longitude()
         );
     }
 }

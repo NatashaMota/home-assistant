@@ -2,6 +2,7 @@ package br.com.openlabs.home_assistant.business.conditioningAir.usecases;
 
 import br.com.openlabs.home_assistant.business.conditioningAir.ConditioningAir;
 import br.com.openlabs.home_assistant.infra.persistence.conditioningAir.AirConditionerPersistence;
+import br.com.openlabs.home_assistant.infra.web.GeoLocationService;
 import br.com.openlabs.home_assistant.infra.web.MQTTService;
 import br.com.openlabs.home_assistant.infra.web.WeatherService;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -18,24 +19,28 @@ public class ControlStatusByTemperature {
 
     private final WeatherService weatherService;
     private final MQTTService mqttService;
+    private final GeoLocationService geoLocationService;
+
     private double max = 22.0;
     private double min = 15.0;
 
 
-    public ControlStatusByTemperature(AirConditionerPersistence airConditionerPersistence, WeatherService weatherService, MQTTService mqttService) {
+    public ControlStatusByTemperature(AirConditionerPersistence airConditionerPersistence
+            , WeatherService weatherService, MQTTService mqttService, GeoLocationService geoLocationService) {
         this.airConditionerPersistence = airConditionerPersistence;
         this.weatherService = weatherService;
         this.mqttService = mqttService;
+        this.geoLocationService = geoLocationService;
     }
 
     @Scheduled(fixedRate = 60000) // 1 min
     public void controlAirConditioner() {
-        //TODO: usar loc aproximada
-        Long locationId = 3457001L;
         LocalTime now = LocalTime.now();
+        List<String> geoLocation = geoLocationService.getGeoLocation();
 
-        double currentTemperature = weatherService.getCurrentTemperature(locationId.toString());
-        List<ConditioningAir> conditioningAirs =  airConditionerPersistence.findByCidadeId(locationId);
+        double currentTemperature = weatherService.getCurrentTemperature(geoLocation.get(0), geoLocation.get(1));
+        List<ConditioningAir> conditioningAirs =  airConditionerPersistence.findByLatitudeAndAndLongitude(
+                Long.getLong(geoLocation.get(0)), Long.getLong(geoLocation.get(1)));
         System.out.println("Current temperature: " + currentTemperature );
         for (ConditioningAir conditioningAir : conditioningAirs) {
 

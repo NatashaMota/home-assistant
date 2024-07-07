@@ -25,7 +25,8 @@ public class GetAirConditionerInfo {
                     conditioningAir.get().getTemperature(),
                     conditioningAir.get().getTurnOffTime(),
                     conditioningAir.get().getTurnOnTime(),
-                    conditioningAir.get().getCidadeId()
+                    conditioningAir.get().getLatitude(),
+                    conditioningAir.get().getLongitude()
             );
         }
 
