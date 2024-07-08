@@ -22,8 +22,8 @@ public class ToggleAirConditionerState {
                     conditioningAir.setState(!conditioningAir.getState());
                     System.out.println("Turning " + getTurnOnOffMessage(conditioningAir.getState())
                             + " air conditioner " + conditioningAir.getId().toString());
-                    mqttService.publish("home/airConditioner/" + conditioningAir.getId().toString()
-                            , getTurnOnOffMessage(conditioningAir.getState()));
+                    //mqttService.publish("home/airConditioner/" + conditioningAir.getId().toString(),
+                             //getTurnOnOffMessage(conditioningAir.getState());
                     conditioningAir.setManually(!conditioningAir.getState());
                     return airConditionerPersistence.save(conditioningAir);
                 })
