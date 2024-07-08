@@ -15,16 +15,16 @@ public class AirConditionerController {
 
     private final ToggleAirConditionerState toggleAirConditionerState;
     private final GetAirConditionerInfo getAirConditionerInfo;
-    private final CreateConditioningAir createConditioningAir;
+    private final CreateAirConditioner createAirConditioner;
     private final ChangeStateByTime changeStateByTime;
     private final AdjustTemperature adjustTemperature;
 
     public AirConditionerController(ToggleAirConditionerState toggleAirConditionerState, GetAirConditionerInfo getAirConditionerInfo,
-                                    CreateConditioningAir createConditioningAir,
+                                    CreateAirConditioner createAirConditioner,
                                     ChangeStateByTime changeStateByTime, AdjustTemperature adjustTemperature) {
         this.toggleAirConditionerState = toggleAirConditionerState;
         this.getAirConditionerInfo = getAirConditionerInfo;
-        this.createConditioningAir = createConditioningAir;
+        this.createAirConditioner = createAirConditioner;
         this.changeStateByTime = changeStateByTime;
         this.adjustTemperature = adjustTemperature;
     }
@@ -55,7 +55,7 @@ public class AirConditionerController {
     @ResponseStatus(HttpStatus.CREATED)
     public CustomResponseEntity<Long> createConditioningAir(@Valid @RequestBody AirConditionerInfoDTO airConditionerInfoDTO) {
         try {
-            Long id = createConditioningAir.execute(airConditionerInfoDTO);
+            Long id = createAirConditioner.execute(airConditionerInfoDTO);
             return new CustomResponseEntity<>(HttpStatus.CREATED, "Conditioning air created successfully", HttpStatus.CREATED.value(), id);
         } catch (RuntimeException e) {
             return new CustomResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value(), null);

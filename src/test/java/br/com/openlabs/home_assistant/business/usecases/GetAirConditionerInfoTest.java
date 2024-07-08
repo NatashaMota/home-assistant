@@ -1,6 +1,6 @@
 package br.com.openlabs.home_assistant.business.usecases;
 
-import br.com.openlabs.home_assistant.business.conditioningAir.ConditioningAir;
+import br.com.openlabs.home_assistant.business.conditioningAir.ConditionerAir;
 import br.com.openlabs.home_assistant.business.conditioningAir.usecases.dtos.AirConditionerInfoDTO;
 import br.com.openlabs.home_assistant.business.conditioningAir.usecases.GetAirConditionerInfo;
 
@@ -35,17 +35,17 @@ class GetAirConditionerInfoTest {
     void testExecuteSuccess() {
         // Arrange
         Long id = 1L;
-        ConditioningAir conditioningAir = new ConditioningAir();
-        conditioningAir.setId(id);
-        conditioningAir.setName("Air Conditioner");
-        conditioningAir.setState(true);
-        conditioningAir.setTemperature(24);
-        conditioningAir.setTurnOffTime(LocalTime.of(22,0));
-        conditioningAir.setTurnOnTime(LocalTime.of(6,0));
-        conditioningAir.setLatitude(Long.getLong("40.7128"));
-        conditioningAir.setLongitude(Long.getLong("-74.0060"));
+        ConditionerAir conditionerAir = new ConditionerAir();
+        conditionerAir.setId(id);
+        conditionerAir.setName("Air Conditioner");
+        conditionerAir.setState(true);
+        conditionerAir.setTemperature(24);
+        conditionerAir.setTurnOffTime(LocalTime.of(22,0));
+        conditionerAir.setTurnOnTime(LocalTime.of(6,0));
+        conditionerAir.setLatitude(Long.getLong("40.7128"));
+        conditionerAir.setLongitude(Long.getLong("-74.0060"));
 
-        when(airConditionerPersistence.findById(id)).thenReturn(Optional.of(conditioningAir));
+        when(airConditionerPersistence.findById(id)).thenReturn(Optional.of(conditionerAir));
 
         // Act
         AirConditionerInfoDTO result = getAirConditionerInfo.execute(id);

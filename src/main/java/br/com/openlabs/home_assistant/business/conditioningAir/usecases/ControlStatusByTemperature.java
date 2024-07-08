@@ -1,6 +1,6 @@
 package br.com.openlabs.home_assistant.business.conditioningAir.usecases;
 
-import br.com.openlabs.home_assistant.business.conditioningAir.ConditioningAir;
+import br.com.openlabs.home_assistant.business.conditioningAir.ConditionerAir;
 import br.com.openlabs.home_assistant.infra.persistence.conditioningAir.AirConditionerPersistence;
 import br.com.openlabs.home_assistant.infra.web.GeoLocationService;
 import br.com.openlabs.home_assistant.infra.web.MQTTService;
@@ -39,62 +39,62 @@ public class ControlStatusByTemperature {
         List<String> geoLocation = geoLocationService.getGeoLocation();
 
         double currentTemperature = weatherService.getCurrentTemperature(geoLocation.get(0), geoLocation.get(1));
-        List<ConditioningAir> conditioningAirs =  airConditionerPersistence.findByLatitudeAndAndLongitude(
+        List<ConditionerAir> conditionerAirs =  airConditionerPersistence.findByLatitudeAndAndLongitude(
                 Long.getLong(geoLocation.get(0)), Long.getLong(geoLocation.get(1)));
         System.out.println("Current temperature: " + currentTemperature );
-        for (ConditioningAir conditioningAir : conditioningAirs) {
+        for (ConditionerAir conditionerAir : conditionerAirs) {
 
-            if(manuallyTurnedOff(conditioningAir)){
+            if(manuallyTurnedOff(conditionerAir)){
                 continue;
             }
-            if(inOffProgrammedTime(conditioningAir, now)){
-                if (conditioningAir.getState()){
-                    turnOff(conditioningAir);
+            if(inOffProgrammedTime(conditionerAir, now)){
+                if (conditionerAir.getState()){
+                    turnOff(conditionerAir);
                 }
                 continue;
             }
-            automaticControlState(conditioningAir, currentTemperature);
+            automaticControlState(conditionerAir, currentTemperature);
         }
     }
 
-    private void automaticControlState(ConditioningAir conditioningAir, double currentTemperature) {
+    private void automaticControlState(ConditionerAir conditionerAir, double currentTemperature) {
         // Controle automático
-        if (currentTemperature > max && !conditioningAir.getState()) {
-            turnOn(conditioningAir);
-        } else if (currentTemperature < min && conditioningAir.getState()) {
-            turnOff(conditioningAir);
+        if (currentTemperature > max && !conditionerAir.getState()) {
+            turnOn(conditionerAir);
+        } else if (currentTemperature < min && conditionerAir.getState()) {
+            turnOff(conditionerAir);
         }
     }
 
-    private Boolean manuallyTurnedOff(ConditioningAir conditioningAir) {
+    private Boolean manuallyTurnedOff(ConditionerAir conditionerAir) {
         // manualmente não deve ligar
-        if (!conditioningAir.getState() && conditioningAir.getManually()) {
-            System.out.println("Air conditioner " + conditioningAir.getId().toString() + " was manually turned OFF.");
+        if (!conditionerAir.getState() && conditionerAir.getManually()) {
+            System.out.println("Air conditioner " + conditionerAir.getId().toString() + " was manually turned OFF.");
             return true;
         }
         return false;
     }
 
-    private Boolean inOffProgrammedTime(ConditioningAir conditioningAir, LocalTime now) {
-        if (now.isAfter(conditioningAir.getTurnOffTime()) && now.isBefore(conditioningAir.getTurnOnTime())) {
-            System.out.println("Air conditioner " + conditioningAir.getId().toString() + " is in programmed OFF time.");
+    private Boolean inOffProgrammedTime(ConditionerAir conditionerAir, LocalTime now) {
+        if (now.isAfter(conditionerAir.getTurnOffTime()) && now.isBefore(conditionerAir.getTurnOnTime())) {
+            System.out.println("Air conditioner " + conditionerAir.getId().toString() + " is in programmed OFF time.");
             return true;
         }
         return false;
     }
 
-    public void turnOff(ConditioningAir conditioningAir){
-        System.out.println("Turning OFF air conditioner " + conditioningAir.getId().toString());
-        mqttService.publish("home/airConditioner/" + conditioningAir.getId().toString(), "OFF");
-        conditioningAir.setState(false);
-        airConditionerPersistence.save(conditioningAir);
+    public void turnOff(ConditionerAir conditionerAir){
+        System.out.println("Turning OFF air conditioner " + conditionerAir.getId().toString());
+        mqttService.publish("home/airConditioner/" + conditionerAir.getId().toString(), "OFF");
+        conditionerAir.setState(false);
+        airConditionerPersistence.save(conditionerAir);
     }
 
-    public void turnOn(ConditioningAir conditioningAir){
-        System.out.println("Turning ON air conditioner " + conditioningAir.getId().toString());
-        mqttService.publish("home/airConditioner/" + conditioningAir.getId().toString(), "ON");
-        conditioningAir.setState(true);
-        airConditionerPersistence.save(conditioningAir);
+    public void turnOn(ConditionerAir conditionerAir){
+        System.out.println("Turning ON air conditioner " + conditionerAir.getId().toString());
+        mqttService.publish("home/airConditioner/" + conditionerAir.getId().toString(), "ON");
+        conditionerAir.setState(true);
+        airConditionerPersistence.save(conditionerAir);
     }
 
 }

@@ -2,7 +2,7 @@ package br.com.openlabs.home_assistant.business.usecases;
 
 import br.com.openlabs.home_assistant.business.conditioningAir.usecases.ToggleAirConditionerState;
 import br.com.openlabs.home_assistant.infra.persistence.conditioningAir.AirConditionerPersistence;
-import br.com.openlabs.home_assistant.business.conditioningAir.ConditioningAir;
+import br.com.openlabs.home_assistant.business.conditioningAir.ConditionerAir;
 import br.com.openlabs.home_assistant.infra.web.MQTTService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,22 +36,22 @@ class ToggleAirConditionerStateTest {
     void testExecuteSuccess() {
         // Arrange
         Long id = 1L;
-        ConditioningAir conditioningAir = new ConditioningAir();
-        conditioningAir.setId(id);
-        conditioningAir.setState(false); // Initially OFF
+        ConditionerAir conditionerAir = new ConditionerAir();
+        conditionerAir.setId(id);
+        conditionerAir.setState(false); // Initially OFF
 
-        when(airConditionerPersistence.findById(id)).thenReturn(Optional.of(conditioningAir));
-        when(airConditionerPersistence.save(any(ConditioningAir.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        when(airConditionerPersistence.findById(id)).thenReturn(Optional.of(conditionerAir));
+        when(airConditionerPersistence.save(any(ConditionerAir.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         // Act
         toggleAirConditionerState.execute(id);
 
         // Assert
         verify(airConditionerPersistence).findById(id);
-        verify(airConditionerPersistence).save(any(ConditioningAir.class));
+        verify(airConditionerPersistence).save(any(ConditionerAir.class));
         verify(mqttService).publish("home/airConditioner/1", "ON");
-        assertTrue(conditioningAir.getState());
-        assertFalse(conditioningAir.getManually());
+        assertTrue(conditionerAir.getState());
+        assertFalse(conditionerAir.getManually());
     }
 
     @Test
@@ -64,7 +64,7 @@ class ToggleAirConditionerStateTest {
         // Act & Assert
         assertThrows(RuntimeException.class, () -> toggleAirConditionerState.execute(id));
         verify(airConditionerPersistence).findById(id);
-        verify(airConditionerPersistence, never()).save(any(ConditioningAir.class));
+        verify(airConditionerPersistence, never()).save(any(ConditionerAir.class));
         verify(mqttService, never()).publish(anyString(), anyString());
     }
 }
