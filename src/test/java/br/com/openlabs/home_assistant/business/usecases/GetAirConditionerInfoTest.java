@@ -46,8 +46,8 @@ class GetAirConditionerInfoTest {
         airConditioner.setTemperature(24);
         airConditioner.setTurnOffTime(LocalTime.of(22,0));
         airConditioner.setTurnOnTime(LocalTime.of(6,0));
-        airConditioner.setLatitude(Double.valueOf("40.7128"));
-        airConditioner.setLongitude(Double.valueOf("-74.0060"));
+        airConditioner.setLatitude(40.7128D);
+        airConditioner.setLongitude(-74.0060D);
 
         when(airConditionerPersistence.findById(id)).thenReturn(Optional.of(airConditioner));
 
@@ -61,8 +61,8 @@ class GetAirConditionerInfoTest {
         assertEquals(24, result.temperature());
         assertEquals(LocalTime.of(22,0), result.turnOffTime());
         assertEquals(LocalTime.of(6,0), result.turnOnTime());
-        assertEquals(Long.getLong(" 40.7128"), result.latitude());
-        assertEquals(Long.getLong("-74.0060"), result.longitude());
+        assertEquals(40.7128D, result.latitude());
+        assertEquals(-74.0060D, result.longitude());
     }
 
     @Test

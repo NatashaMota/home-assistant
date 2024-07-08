@@ -44,7 +44,7 @@ public class ControlStatusByTemperature {
         LocalTime now = LocalTime.now();
         List<String> geoLocation = geoLocationService.getGeoLocation();
 
-        double currentTemperature = weatherService.getCurrentTemperature(geoLocation.get(0), geoLocation.get(1));
+        double currentTemperature = weatherService.getCurrentTemperature(Double.valueOf(geoLocation.get(0)), Double.valueOf(geoLocation.get(1)));
         List<AirConditioner> airConditioners =  airConditionerPersistence.findByLatitudeAndLongitude(
                 Double.valueOf(geoLocation.get(0)), Double.valueOf(geoLocation.get(1)));
         for (AirConditioner airConditioner : airConditioners) {

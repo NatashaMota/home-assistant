@@ -24,7 +24,9 @@ public class AirConditioner {
     @NotNull
     private Boolean state;
     private Integer temperature;
+    @NotNull
     private LocalTime turnOffTime;
+    @NotNull
     private LocalTime turnOnTime;
     @NotNull
     private Boolean manually;

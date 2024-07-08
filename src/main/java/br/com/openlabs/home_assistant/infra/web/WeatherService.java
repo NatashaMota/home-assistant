@@ -8,8 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Arrays;
-
 @Service
 public class WeatherService {
 
@@ -21,7 +19,7 @@ public class WeatherService {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
-    public double getCurrentTemperature(String latitude, String longitude) {
+    public double getCurrentTemperature(Double latitude, Double longitude) {
         try {
             String url = String.format("%s/weather?lat=%s&lon=%s&units=metric&appid=%s", apiUrl, latitude, longitude, apiKey);
             WeatherResponse response = restTemplate.exchange(url, HttpMethod.GET, createHttpEntity(), WeatherResponse.class).getBody();

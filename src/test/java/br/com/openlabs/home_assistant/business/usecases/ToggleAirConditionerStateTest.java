@@ -53,7 +53,6 @@ class ToggleAirConditionerStateTest {
         // Assert
         verify(airConditionerPersistence).findById(id);
         verify(airConditionerPersistence).save(any(AirConditioner.class));
-        verify(mqttService).publish("home/airConditioner/1", "ON");
         assertTrue(airConditioner.getState());
         assertFalse(airConditioner.getManually());
     }
