@@ -24,7 +24,7 @@ public class ConditioningAirAndDtoConverter {
                 airConditionerInfoDTO.temperature(),
                 airConditionerInfoDTO.turnOffTime(),
                 airConditionerInfoDTO.turnOnTime(),
-                airConditionerInfoDTO.Latitude(),
+                airConditionerInfoDTO.latitude(),
                 airConditionerInfoDTO.longitude()
         );
     }
