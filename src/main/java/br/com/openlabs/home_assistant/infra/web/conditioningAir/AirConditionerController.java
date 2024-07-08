@@ -1,6 +1,7 @@
 package br.com.openlabs.home_assistant.infra.web.conditioningAir;
 
 import br.com.openlabs.home_assistant.business.conditioningAir.usecases.*;
+import br.com.openlabs.home_assistant.business.conditioningAir.usecases.dtos.AirConditionerIdDTO;
 import br.com.openlabs.home_assistant.business.conditioningAir.usecases.dtos.AirConditionerInfoDTO;
 import br.com.openlabs.home_assistant.business.conditioningAir.usecases.dtos.AirConditionerStateTimeDTO;
 import br.com.openlabs.home_assistant.business.conditioningAir.usecases.dtos.AirConditionerTemperatureDTO;
@@ -53,10 +54,10 @@ public class AirConditionerController {
 
     @PostMapping("/createAirConditioner")
     @ResponseStatus(HttpStatus.CREATED)
-    public CustomResponseEntity<Long> createConditioningAir(@Valid @RequestBody AirConditionerInfoDTO airConditionerInfoDTO) {
+    public CustomResponseEntity<AirConditionerIdDTO> createConditioningAir(@Valid @RequestBody AirConditionerInfoDTO airConditionerInfoDTO) {
         try {
-            Long id = createAirConditioner.execute(airConditionerInfoDTO);
-            return new CustomResponseEntity<>(HttpStatus.CREATED, "Conditioning air created successfully", HttpStatus.CREATED.value(), id);
+            AirConditionerIdDTO airConditionerIdDTO = createAirConditioner.execute(airConditionerInfoDTO);
+            return new CustomResponseEntity<>(HttpStatus.CREATED, "Conditioning air created successfully", HttpStatus.CREATED.value(), airConditionerIdDTO);
         } catch (RuntimeException e) {
             return new CustomResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value(), null);
         }

@@ -2,6 +2,7 @@ package br.com.openlabs.home_assistant.business.usecases;
 
 import br.com.openlabs.home_assistant.business.conditioningAir.AirConditioner;
 import br.com.openlabs.home_assistant.business.conditioningAir.usecases.CreateAirConditioner;
+import br.com.openlabs.home_assistant.business.conditioningAir.usecases.dtos.AirConditionerIdDTO;
 import br.com.openlabs.home_assistant.business.conditioningAir.usecases.dtos.AirConditionerInfoDTO;
 import br.com.openlabs.home_assistant.infra.persistence.conditioningAir.AirConditionerPersistence;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,10 +48,10 @@ class CreateAirConditionerTest {
 
         when(airConditionerPersistence.save(any(AirConditioner.class))).thenReturn(airConditioner);
 
-        Long resultId = createAirConditioner.execute(dto);
+        AirConditionerIdDTO resultId = createAirConditioner.execute(dto);
 
         verify(airConditionerPersistence).save(any(AirConditioner.class));
-        assertEquals(id, resultId);
+        assertEquals(id, resultId.id());
     }
 
     @Test
