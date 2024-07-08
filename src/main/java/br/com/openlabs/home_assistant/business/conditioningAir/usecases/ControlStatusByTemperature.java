@@ -23,7 +23,6 @@ public class ControlStatusByTemperature {
 
     private final Double MAX = 22.0;
     private final Double MIN = 15.0;
-    private final Integer RATE = 6000;
 
 
     public ControlStatusByTemperature(AirConditionerPersistence airConditionerPersistence
@@ -34,7 +33,7 @@ public class ControlStatusByTemperature {
         this.geoLocationService = geoLocationService;
     }
 
-    @Scheduled(fixedRate = RATE)
+    @Scheduled(fixedRate = 6000)
     public void controlAirConditioner() {
         LocalTime now = LocalTime.now();
         List<String> geoLocation = geoLocationService.getGeoLocation();
