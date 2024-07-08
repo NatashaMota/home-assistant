@@ -30,6 +30,7 @@ public class AirConditionerController {
     }
 
     @PutMapping("/changeState/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public CustomResponseEntity<Void> changeState(@PathVariable Long id) {
         try {
             toggleAirConditionerState.execute(id);
@@ -40,6 +41,7 @@ public class AirConditionerController {
     }
 
     @GetMapping("/obtainConditioningAirInfo/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public CustomResponseEntity<AirConditionerInfoDTO> obtainConditioningAirInfo(@PathVariable Long id) {
         try {
             AirConditionerInfoDTO info = getAirConditionerInfo.execute(id);
@@ -50,6 +52,7 @@ public class AirConditionerController {
     }
 
     @PostMapping("/createConditioningAir")
+    @ResponseStatus(HttpStatus.CREATED)
     public CustomResponseEntity<Long> createConditioningAir(@Valid @RequestBody AirConditionerInfoDTO airConditionerInfoDTO) {
         try {
             Long id = createConditioningAir.execute(airConditionerInfoDTO);
@@ -60,6 +63,7 @@ public class AirConditionerController {
     }
 
     @PutMapping("/changeStateByTime/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public CustomResponseEntity<Void> changeTimes(@PathVariable Long id, @Valid @RequestBody AirConditionerStateTimeDTO airConditionerStateTimeDTO) {
         try {
             changeStateByTime.execute(airConditionerStateTimeDTO, id);
@@ -70,6 +74,7 @@ public class AirConditionerController {
     }
 
     @PutMapping("/changeTemperature/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public CustomResponseEntity<Void> changeTemperature(@PathVariable Long id, @Valid @RequestBody AirConditionerTemperatureDTO airConditionerTemperatureDTO) {
         try {
             adjustTemperature.execute(id, airConditionerTemperatureDTO);
