@@ -22,13 +22,13 @@ Este documento fornece uma visão geral e guia de uso da API do projeto Home Ass
 3. Execute o Maven para instalar as dependências:
   mvn clean install
 4. Configure o arquivo `src/main/resources/application.properties` com as informações do seu banco de dados e chaves de API.
-  #Configurações do banco de dados postgress com ddl-auto=update
+   Configurações do banco de dados postgress com ddl-auto=update
 
-  # Configuração da chave de API do OpenWeatherMap
+  Configuração da chave de API do OpenWeatherMap
   openweathermap.api.key=1308d784517f4abd2a2d904053e00dbe <- chave pra teste
   openweathermap.api.url=http://api.openweathermap.org/data/2.5
 
-  # Configuração da chave de API do ipinfo.io
+  Configuração da chave de API do ipinfo.io
   ipinfo.api.key=59cb1365734f5a <- chave pra teste
 
 ###Licença
