@@ -3,7 +3,7 @@ package br.com.openlabs.home_assistant.business.usecases;
 import br.com.openlabs.home_assistant.business.conditioningAir.usecases.AdjustTemperature;
 import br.com.openlabs.home_assistant.business.conditioningAir.usecases.dtos.AirConditionerTemperatureDTO;
 import br.com.openlabs.home_assistant.infra.persistence.conditioningAir.AirConditionerPersistence;
-import br.com.openlabs.home_assistant.business.conditioningAir.ConditionerAir;
+import br.com.openlabs.home_assistant.business.conditioningAir.AirConditioner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -38,19 +38,19 @@ class AdjustTemperatureTest {
     void testExecuteSuccess() {
         Long id = 1L;
         AirConditionerTemperatureDTO dto = new AirConditionerTemperatureDTO(25);
-        ConditionerAir conditionerAir = new ConditionerAir();
-        conditionerAir.setId(id);
-        conditionerAir.setTemperature(15);
+        AirConditioner airConditioner = new AirConditioner();
+        airConditioner.setId(id);
+        airConditioner.setTemperature(15);
 
-        when(airConditionerPersistence.findById(id)).thenReturn(Optional.of(conditionerAir));
-        when(airConditionerPersistence.save(any(ConditionerAir.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        when(airConditionerPersistence.findById(id)).thenReturn(Optional.of(airConditioner));
+        when(airConditionerPersistence.save(any(AirConditioner.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
 
         adjustTemperature.execute(id, dto);
 
         verify(airConditionerPersistence).findById(id);
-        verify(airConditionerPersistence).save(any(ConditionerAir.class));
-        assertEquals(25, conditionerAir.getTemperature());
+        verify(airConditionerPersistence).save(any(AirConditioner.class));
+        assertEquals(25, airConditioner.getTemperature());
     }
 
     @Test
@@ -62,6 +62,6 @@ class AdjustTemperatureTest {
 
         assertThrows(RuntimeException.class, () -> adjustTemperature.execute(id, dto));
         verify(airConditionerPersistence).findById(id);
-        verify(airConditionerPersistence, never()).save(any(ConditionerAir.class));
+        verify(airConditionerPersistence, never()).save(any(AirConditioner.class));
     }
 }

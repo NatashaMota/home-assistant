@@ -1,6 +1,6 @@
 package br.com.openlabs.home_assistant.business.conditioningAir.usecases;
 
-import br.com.openlabs.home_assistant.business.conditioningAir.ConditionerAir;
+import br.com.openlabs.home_assistant.business.conditioningAir.AirConditioner;
 import br.com.openlabs.home_assistant.business.conditioningAir.usecases.dtos.AirConditionerInfoDTO;
 import br.com.openlabs.home_assistant.business.conditioningAir.util.AirConditionerAndDtoConverter;
 import br.com.openlabs.home_assistant.infra.persistence.conditioningAir.AirConditionerPersistence;
@@ -18,7 +18,7 @@ public class GetAirConditionerInfo {
     }
 
     public AirConditionerInfoDTO execute(Long id) {
-        Optional<ConditionerAir> conditioningAir = airConditionerPersistence.findById(id);
+        Optional<AirConditioner> conditioningAir = airConditionerPersistence.findById(id);
         return conditioningAir.map(AirConditionerAndDtoConverter::toConditioningAirInformationDTO).orElse(null);
 
     }

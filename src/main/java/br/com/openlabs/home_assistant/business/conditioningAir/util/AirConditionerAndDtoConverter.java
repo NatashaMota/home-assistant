@@ -1,24 +1,24 @@
 package br.com.openlabs.home_assistant.business.conditioningAir.util;
 
-import br.com.openlabs.home_assistant.business.conditioningAir.ConditionerAir;
+import br.com.openlabs.home_assistant.business.conditioningAir.AirConditioner;
 import br.com.openlabs.home_assistant.business.conditioningAir.usecases.dtos.AirConditionerInfoDTO;
 
 public class AirConditionerAndDtoConverter {
 
-    public static AirConditionerInfoDTO toConditioningAirInformationDTO(ConditionerAir conditionerAir) {
+    public static AirConditionerInfoDTO toConditioningAirInformationDTO(AirConditioner airConditioner) {
         return new AirConditionerInfoDTO(
-                conditionerAir.getName(),
-                conditionerAir.getState(),
-                conditionerAir.getTemperature(),
-                conditionerAir.getTurnOffTime(),
-                conditionerAir.getTurnOnTime(),
-                conditionerAir.getLatitude(),
-                conditionerAir.getLongitude()
+                airConditioner.getName(),
+                airConditioner.getState(),
+                airConditioner.getTemperature(),
+                airConditioner.getTurnOffTime(),
+                airConditioner.getTurnOnTime(),
+                airConditioner.getLatitude(),
+                airConditioner.getLongitude()
         );
     }
 
-    public static ConditionerAir toConditioningAir(AirConditionerInfoDTO airConditionerInfoDTO) {
-        return new ConditionerAir(
+    public static AirConditioner toConditioningAir(AirConditionerInfoDTO airConditionerInfoDTO) {
+        return new AirConditioner(
                 airConditionerInfoDTO.name(),
                 airConditionerInfoDTO.state(),
                 airConditionerInfoDTO.temperature(),

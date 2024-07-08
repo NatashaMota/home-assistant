@@ -14,7 +14,7 @@ import java.time.LocalTime;
 @Setter
 @Getter
 @Entity
-public class ConditionerAir {
+public class AirConditioner {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,15 +29,15 @@ public class ConditionerAir {
     @NotNull
     private Boolean manually;
     @NotNull
-    private Long latitude;
+    private Double latitude;
     @NotNull
-    private Long longitude;
+    private Double longitude;
 
-    public ConditionerAir() {
+    public AirConditioner() {
     }
 
-    public ConditionerAir(String name, Boolean state, Integer temperature
-                        , LocalTime turnOffTime, LocalTime turnOnTime, Long latitude, Long longitude) {
+    public AirConditioner(String name, Boolean state, Integer temperature
+                        , LocalTime turnOffTime, LocalTime turnOnTime, Double latitude, Double longitude) {
         setName(name);
         setState(state);
         setTemperature(temperature);

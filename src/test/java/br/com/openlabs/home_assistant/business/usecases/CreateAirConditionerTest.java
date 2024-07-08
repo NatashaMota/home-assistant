@@ -1,6 +1,6 @@
 package br.com.openlabs.home_assistant.business.usecases;
 
-import br.com.openlabs.home_assistant.business.conditioningAir.ConditionerAir;
+import br.com.openlabs.home_assistant.business.conditioningAir.AirConditioner;
 import br.com.openlabs.home_assistant.business.conditioningAir.usecases.CreateAirConditioner;
 import br.com.openlabs.home_assistant.business.conditioningAir.usecases.dtos.AirConditionerInfoDTO;
 import br.com.openlabs.home_assistant.infra.persistence.conditioningAir.AirConditionerPersistence;
@@ -40,16 +40,16 @@ class CreateAirConditionerTest {
                                                                     , 20
                                                                     ,null
                                                                     , null
-                                                                    , Long.getLong("-23.5228")
-                                                                    , Long.getLong("-46.1883"));
-        ConditionerAir conditionerAir = new ConditionerAir();
-        conditionerAir.setId(id);
+                                                                    , Double.valueOf("-23.5228")
+                                                                    , Double.valueOf("-46.1883"));
+        AirConditioner airConditioner = new AirConditioner();
+        airConditioner.setId(id);
 
-        when(airConditionerPersistence.save(any(ConditionerAir.class))).thenReturn(conditionerAir);
+        when(airConditionerPersistence.save(any(AirConditioner.class))).thenReturn(airConditioner);
 
         Long resultId = createAirConditioner.execute(dto);
 
-        verify(airConditionerPersistence).save(any(ConditionerAir.class));
+        verify(airConditionerPersistence).save(any(AirConditioner.class));
         assertEquals(id, resultId);
     }
 
@@ -58,6 +58,6 @@ class CreateAirConditionerTest {
         AirConditionerInfoDTO dto = null;
 
         assertThrows(RuntimeException.class, () -> createAirConditioner.execute(dto));
-        verify(airConditionerPersistence, never()).save(any(ConditionerAir.class));
+        verify(airConditionerPersistence, never()).save(any(AirConditioner.class));
     }
 }

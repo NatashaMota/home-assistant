@@ -1,6 +1,6 @@
 package br.com.openlabs.home_assistant.business.usecases;
 
-import br.com.openlabs.home_assistant.business.conditioningAir.ConditionerAir;
+import br.com.openlabs.home_assistant.business.conditioningAir.AirConditioner;
 import br.com.openlabs.home_assistant.business.conditioningAir.usecases.ChangeStateByTime;
 import br.com.openlabs.home_assistant.business.conditioningAir.usecases.dtos.AirConditionerStateTimeDTO;
 import br.com.openlabs.home_assistant.infra.persistence.conditioningAir.AirConditionerPersistence;
@@ -41,18 +41,18 @@ class ChangeStateByTimeTest {
         // Arrange
         Long id = 1L;
         AirConditionerStateTimeDTO dto = new AirConditionerStateTimeDTO(LocalTime.of(22,0), LocalTime.of(6,0));
-        ConditionerAir conditionerAir = new ConditionerAir();
-        conditionerAir.setId(id);
+        AirConditioner airConditioner = new AirConditioner();
+        airConditioner.setId(id);
 
-        when(airConditionerPersistence.findById(id)).thenReturn(Optional.of(conditionerAir));
-        when(airConditionerPersistence.save(any(ConditionerAir.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        when(airConditionerPersistence.findById(id)).thenReturn(Optional.of(airConditioner));
+        when(airConditionerPersistence.save(any(AirConditioner.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         changeStateByTime.execute(dto, id);
 
         verify(airConditionerPersistence).findById(id);
-        verify(airConditionerPersistence).save(any(ConditionerAir.class));
-        assertEquals(LocalTime.of(22,0), conditionerAir.getTurnOffTime());
-        assertEquals(LocalTime.of(6,0), conditionerAir.getTurnOnTime());
+        verify(airConditionerPersistence).save(any(AirConditioner.class));
+        assertEquals(LocalTime.of(22,0), airConditioner.getTurnOffTime());
+        assertEquals(LocalTime.of(6,0), airConditioner.getTurnOnTime());
     }
 
     @Test
@@ -66,6 +66,6 @@ class ChangeStateByTimeTest {
         // Act & Assert
         assertThrows(RuntimeException.class, () -> changeStateByTime.execute(dto, id));
         verify(airConditionerPersistence).findById(id);
-        verify(airConditionerPersistence, never()).save(any(ConditionerAir.class));
+        verify(airConditionerPersistence, never()).save(any(AirConditioner.class));
     }
 }

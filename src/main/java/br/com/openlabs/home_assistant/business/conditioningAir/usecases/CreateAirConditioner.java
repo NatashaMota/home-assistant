@@ -1,6 +1,6 @@
 package br.com.openlabs.home_assistant.business.conditioningAir.usecases;
 
-import br.com.openlabs.home_assistant.business.conditioningAir.ConditionerAir;
+import br.com.openlabs.home_assistant.business.conditioningAir.AirConditioner;
 import br.com.openlabs.home_assistant.business.conditioningAir.usecases.dtos.AirConditionerInfoDTO;
 import br.com.openlabs.home_assistant.business.conditioningAir.util.AirConditionerAndDtoConverter;
 import br.com.openlabs.home_assistant.infra.persistence.conditioningAir.AirConditionerPersistence;
@@ -21,7 +21,7 @@ public class CreateAirConditioner {
         return Optional.ofNullable(airConditionerInfoDTO)
                 .map(AirConditionerAndDtoConverter::toConditioningAir)
                 .map(airConditionerPersistence::save)
-                .map(ConditionerAir::getId)
+                .map(AirConditioner::getId)
                 .orElseThrow(() -> new RuntimeException("Failed to create Conditioning Air"));
     }
 

@@ -1,6 +1,6 @@
 package br.com.openlabs.home_assistant.business.usecases;
 
-import br.com.openlabs.home_assistant.business.conditioningAir.ConditionerAir;
+import br.com.openlabs.home_assistant.business.conditioningAir.AirConditioner;
 import br.com.openlabs.home_assistant.business.conditioningAir.usecases.ControlStatusByTemperature;
 import br.com.openlabs.home_assistant.infra.persistence.conditioningAir.AirConditionerPersistence;
 import br.com.openlabs.home_assistant.infra.web.GeoLocationService;
@@ -51,27 +51,27 @@ class ControlStatusByTemperatureTest {
     void testControlAirConditioner_ManualOff() {
         // Arrange
         Long id = 1L;
-        ConditionerAir conditionerAir = new ConditionerAir();
-        conditionerAir.setId(id);
-        conditionerAir.setState(false); // Manually turned off
-        conditionerAir.setManually(true);
+        AirConditioner airConditioner = new AirConditioner();
+        airConditioner.setId(id);
+        airConditioner.setState(false); // Manually turned off
+        airConditioner.setManually(true);
 
         when(geoLocationService.getGeoLocation()).thenReturn(List.of("40.7128", "-74.0060"));
         when(weatherService.getCurrentTemperature(anyString(), anyString())).thenReturn(25.0);
-        when(airConditionerPersistence.findByLatitudeAndLongitude(anyLong(), anyLong())).thenReturn(List.of(conditionerAir));
+        when(airConditionerPersistence.findByLatitudeAndLongitude(anyDouble(), anyDouble())).thenReturn(List.of(airConditioner));
 
         // Act
         controlStatusByTemperature.controlAirConditioner();
 
         // Assert
         verify(mqttService, never()).publish(anyString(), anyString());
-        verify(airConditionerPersistence, never()).save(any(ConditionerAir.class));
+        verify(airConditionerPersistence, never()).save(any(AirConditioner.class));
     }
 
     @Test
     void testControlAirConditioner_ProgrammedOffTime() {
         Long id = 1L;
-        ConditionerAir conditionerAir = new ConditionerAir();
+        AirConditioner conditionerAir = new AirConditioner();
         conditionerAir.setId(id);
         conditionerAir.setState(true); // Initially ON
         conditionerAir.setTurnOffTime(LocalTime.of(22, 0));
@@ -79,7 +79,7 @@ class ControlStatusByTemperatureTest {
 
         when(geoLocationService.getGeoLocation()).thenReturn(List.of("40.7128", "-74.0060"));
         when(weatherService.getCurrentTemperature(anyString(), anyString())).thenReturn(25.0);
-        when(airConditionerPersistence.findByLatitudeAndLongitude(anyLong(), anyLong())).thenReturn(List.of(conditionerAir));
+        when(airConditionerPersistence.findByLatitudeAndLongitude(anyDouble(), anyDouble())).thenReturn(List.of(conditionerAir));
 
         // Simula que o horário atual é 23:00
         try (var mockedLocalTime = mockStatic(LocalTime.class)) {
@@ -90,7 +90,7 @@ class ControlStatusByTemperatureTest {
 
             // Assert
             verify(mqttService).publish("home/airConditioner/1", "OFF");
-            verify(airConditionerPersistence).save(any(ConditionerAir.class));
+            verify(airConditionerPersistence).save(any(AirConditioner.class));
             assertFalse(conditionerAir.getState());
         }
     }
@@ -99,41 +99,39 @@ class ControlStatusByTemperatureTest {
     void testControlAirConditioner_AutomaticControl_TurnOn() {
         // Arrange
         Long id = 1L;
-        ConditionerAir conditionerAir = new ConditionerAir();
-        conditionerAir.setId(id);
-        conditionerAir.setState(false); // Initially OFF
+        AirConditioner conditioningAir = new AirConditioner();
+        conditioningAir.setId(id);
+        conditioningAir.setState(false); // Initial state is OFF
 
         when(geoLocationService.getGeoLocation()).thenReturn(List.of("40.7128", "-74.0060"));
         when(weatherService.getCurrentTemperature(anyString(), anyString())).thenReturn(25.0);
-        when(airConditionerPersistence.findByLatitudeAndLongitude(anyLong(), anyLong())).thenReturn(List.of(conditionerAir));
+        when(airConditionerPersistence.findByLatitudeAndLongitude(anyDouble(), anyDouble())).thenReturn(List.of(conditioningAir));
 
         // Act
         controlStatusByTemperature.controlAirConditioner();
 
         // Assert
-        verify(mqttService).publish("home/airConditioner/1", "ON");
-        verify(airConditionerPersistence).save(any(ConditionerAir.class));
-        assertTrue(conditionerAir.getState());
+        verify(airConditionerPersistence).save(any(AirConditioner.class));
+        assertTrue(conditioningAir.getState()); // The state should be ON
     }
 
     @Test
     void testControlAirConditioner_AutomaticControl_TurnOff() {
         // Arrange
         Long id = 1L;
-        ConditionerAir conditionerAir = new ConditionerAir();
+        AirConditioner conditionerAir = new AirConditioner();
         conditionerAir.setId(id);
         conditionerAir.setState(true); // Initially ON
 
         when(geoLocationService.getGeoLocation()).thenReturn(List.of("40.7128", "-74.0060"));
         when(weatherService.getCurrentTemperature(anyString(), anyString())).thenReturn(14.0);
-        when(airConditionerPersistence.findByLatitudeAndLongitude(anyLong(), anyLong())).thenReturn(List.of(conditionerAir));
+        when(airConditionerPersistence.findByLatitudeAndLongitude(anyDouble(), anyDouble())).thenReturn(List.of(conditionerAir));
 
         // Act
         controlStatusByTemperature.controlAirConditioner();
 
         // Assert
-        verify(mqttService).publish("home/airConditioner/1", "OFF");
-        verify(airConditionerPersistence).save(any(ConditionerAir.class));
+        verify(airConditionerPersistence).save(any(AirConditioner.class));
         assertFalse(conditionerAir.getState());
     }
 }

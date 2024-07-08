@@ -20,8 +20,8 @@ public record AirConditionerInfoDTO(
         @NotNull(message = "Turn on time must not be null")
         LocalTime turnOnTime,
         @NotNull(message = "Latitude must not be null")
-        Long latitude,
+        Double latitude,
         @NotNull(message = "Longitude must not be null")
-        Long longitude
+        Double longitude
 ) {
 }
