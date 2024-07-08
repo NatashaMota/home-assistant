@@ -29,7 +29,7 @@ public class AirConditionerController {
         this.adjustTemperature = adjustTemperature;
     }
 
-    @PutMapping("/changeState/{id}")
+    @PutMapping("/toggleState/{id}")
     @ResponseStatus(HttpStatus.OK)
     public CustomResponseEntity<Void> changeState(@PathVariable Long id) {
         try {
@@ -40,7 +40,7 @@ public class AirConditionerController {
         }
     }
 
-    @GetMapping("/obtainConditioningAirInfo/{id}")
+    @GetMapping("/getAirConditionerInfo/{id}")
     @ResponseStatus(HttpStatus.OK)
     public CustomResponseEntity<AirConditionerInfoDTO> obtainConditioningAirInfo(@PathVariable Long id) {
         try {
@@ -51,7 +51,7 @@ public class AirConditionerController {
         }
     }
 
-    @PostMapping("/createConditioningAir")
+    @PostMapping("/createAirConditioner")
     @ResponseStatus(HttpStatus.CREATED)
     public CustomResponseEntity<Long> createConditioningAir(@Valid @RequestBody AirConditionerInfoDTO airConditionerInfoDTO) {
         try {
@@ -73,7 +73,7 @@ public class AirConditionerController {
         }
     }
 
-    @PutMapping("/changeTemperature/{id}")
+    @PutMapping("/adjustTemperature/{id}")
     @ResponseStatus(HttpStatus.OK)
     public CustomResponseEntity<Void> changeTemperature(@PathVariable Long id, @Valid @RequestBody AirConditionerTemperatureDTO airConditionerTemperatureDTO) {
         try {
