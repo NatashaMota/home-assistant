@@ -21,8 +21,9 @@ public class ControlStatusByTemperature {
     private final MQTTService mqttService;
     private final GeoLocationService geoLocationService;
 
-    private double max = 22.0;
-    private double min = 15.0;
+    private final Double MAX = 22.0;
+    private final Double MIN = 15.0;
+    private final Integer RATE = 6000;
 
 
     public ControlStatusByTemperature(AirConditionerPersistence airConditionerPersistence
@@ -33,13 +34,13 @@ public class ControlStatusByTemperature {
         this.geoLocationService = geoLocationService;
     }
 
-    @Scheduled(fixedRate = 60000) // 1 min
+    @Scheduled(fixedRate = RATE)
     public void controlAirConditioner() {
         LocalTime now = LocalTime.now();
         List<String> geoLocation = geoLocationService.getGeoLocation();
 
         double currentTemperature = weatherService.getCurrentTemperature(geoLocation.get(0), geoLocation.get(1));
-        List<ConditionerAir> conditionerAirs =  airConditionerPersistence.findByLatitudeAndAndLongitude(
+        List<ConditionerAir> conditionerAirs =  airConditionerPersistence.findByLatitudeAndLongitude(
                 Long.getLong(geoLocation.get(0)), Long.getLong(geoLocation.get(1)));
         System.out.println("Current temperature: " + currentTemperature );
         for (ConditionerAir conditionerAir : conditionerAirs) {
@@ -59,9 +60,9 @@ public class ControlStatusByTemperature {
 
     private void automaticControlState(ConditionerAir conditionerAir, double currentTemperature) {
         // Controle automático
-        if (currentTemperature > max && !conditionerAir.getState()) {
+        if (currentTemperature > MAX && !conditionerAir.getState()) {
             turnOn(conditionerAir);
-        } else if (currentTemperature < min && conditionerAir.getState()) {
+        } else if (currentTemperature < MIN && conditionerAir.getState()) {
             turnOff(conditionerAir);
         }
     }

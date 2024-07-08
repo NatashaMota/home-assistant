@@ -28,7 +28,11 @@ class GetAirConditionerInfoTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
+        try {
+            MockitoAnnotations.openMocks(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -55,7 +59,7 @@ class GetAirConditionerInfoTest {
         assertEquals("Air Conditioner", result.name());
         assertEquals(true, result.state());
         assertEquals(24, result.temperature());
-        assertEquals(LocalTime.of(22,00), result.turnOffTime());
+        assertEquals(LocalTime.of(22,0), result.turnOffTime());
         assertEquals(LocalTime.of(6,0), result.turnOnTime());
         assertEquals(Long.getLong(" 40.7128"), result.latitude());
         assertEquals(Long.getLong("-74.0060"), result.longitude());

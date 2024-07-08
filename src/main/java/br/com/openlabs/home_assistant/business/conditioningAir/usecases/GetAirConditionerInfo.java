@@ -2,6 +2,7 @@ package br.com.openlabs.home_assistant.business.conditioningAir.usecases;
 
 import br.com.openlabs.home_assistant.business.conditioningAir.ConditionerAir;
 import br.com.openlabs.home_assistant.business.conditioningAir.usecases.dtos.AirConditionerInfoDTO;
+import br.com.openlabs.home_assistant.business.conditioningAir.util.AirConditionerAndDtoConverter;
 import br.com.openlabs.home_assistant.infra.persistence.conditioningAir.AirConditionerPersistence;
 import org.springframework.stereotype.Service;
 
@@ -18,19 +19,8 @@ public class GetAirConditionerInfo {
 
     public AirConditionerInfoDTO execute(Long id) {
         Optional<ConditionerAir> conditioningAir = airConditionerPersistence.findById(id);
-        if (conditioningAir.isPresent()) {
-            return new AirConditionerInfoDTO(
-                    conditioningAir.get().getName(),
-                    conditioningAir.get().getState(),
-                    conditioningAir.get().getTemperature(),
-                    conditioningAir.get().getTurnOffTime(),
-                    conditioningAir.get().getTurnOnTime(),
-                    conditioningAir.get().getLatitude(),
-                    conditioningAir.get().getLongitude()
-            );
-        }
+        return conditioningAir.map(AirConditionerAndDtoConverter::toConditioningAirInformationDTO).orElse(null);
 
-        return null;
     }
 
 }

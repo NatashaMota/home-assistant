@@ -29,7 +29,11 @@ class ToggleAirConditionerStateTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
+        try {
+            MockitoAnnotations.openMocks(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test

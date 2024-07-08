@@ -8,5 +8,5 @@ import java.util.List;
 @Repository
 public interface AirConditionerPersistence extends JpaRepository<ConditionerAir, Long> {
 
-    List<ConditionerAir> findByLatitudeAndAndLongitude(Long latitude, Long longitude);
+    List<ConditionerAir> findByLatitudeAndLongitude(Long latitude, Long longitude);
 }

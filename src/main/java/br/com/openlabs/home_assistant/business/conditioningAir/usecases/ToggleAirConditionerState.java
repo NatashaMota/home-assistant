@@ -9,11 +9,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class ToggleAirConditionerState {
     private final AirConditionerPersistence airConditionerPersistence;
-    private final MQTTService mqttService;
 
-    public ToggleAirConditionerState(AirConditionerPersistence airConditionerPersistence, MQTTService mqttService) {
+    public ToggleAirConditionerState(AirConditionerPersistence airConditionerPersistence) {
         this.airConditionerPersistence = airConditionerPersistence;
-        this.mqttService = mqttService;
     }
 
     public void execute(Long id) {

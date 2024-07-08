@@ -39,7 +39,12 @@ class ControlStatusByTemperatureTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
+        try {
+            MockitoAnnotations.openMocks(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
     }
 
     @Test
@@ -53,7 +58,7 @@ class ControlStatusByTemperatureTest {
 
         when(geoLocationService.getGeoLocation()).thenReturn(List.of("40.7128", "-74.0060"));
         when(weatherService.getCurrentTemperature(anyString(), anyString())).thenReturn(25.0);
-        when(airConditionerPersistence.findByLatitudeAndAndLongitude(anyLong(), anyLong())).thenReturn(List.of(conditionerAir));
+        when(airConditionerPersistence.findByLatitudeAndLongitude(anyLong(), anyLong())).thenReturn(List.of(conditionerAir));
 
         // Act
         controlStatusByTemperature.controlAirConditioner();
@@ -74,7 +79,7 @@ class ControlStatusByTemperatureTest {
 
         when(geoLocationService.getGeoLocation()).thenReturn(List.of("40.7128", "-74.0060"));
         when(weatherService.getCurrentTemperature(anyString(), anyString())).thenReturn(25.0);
-        when(airConditionerPersistence.findByLatitudeAndAndLongitude(anyLong(), anyLong())).thenReturn(List.of(conditionerAir));
+        when(airConditionerPersistence.findByLatitudeAndLongitude(anyLong(), anyLong())).thenReturn(List.of(conditionerAir));
 
         // Simula que o horário atual é 23:00
         try (var mockedLocalTime = mockStatic(LocalTime.class)) {
@@ -100,7 +105,7 @@ class ControlStatusByTemperatureTest {
 
         when(geoLocationService.getGeoLocation()).thenReturn(List.of("40.7128", "-74.0060"));
         when(weatherService.getCurrentTemperature(anyString(), anyString())).thenReturn(25.0);
-        when(airConditionerPersistence.findByLatitudeAndAndLongitude(anyLong(), anyLong())).thenReturn(List.of(conditionerAir));
+        when(airConditionerPersistence.findByLatitudeAndLongitude(anyLong(), anyLong())).thenReturn(List.of(conditionerAir));
 
         // Act
         controlStatusByTemperature.controlAirConditioner();
@@ -121,7 +126,7 @@ class ControlStatusByTemperatureTest {
 
         when(geoLocationService.getGeoLocation()).thenReturn(List.of("40.7128", "-74.0060"));
         when(weatherService.getCurrentTemperature(anyString(), anyString())).thenReturn(14.0);
-        when(airConditionerPersistence.findByLatitudeAndAndLongitude(anyLong(), anyLong())).thenReturn(List.of(conditionerAir));
+        when(airConditionerPersistence.findByLatitudeAndLongitude(anyLong(), anyLong())).thenReturn(List.of(conditionerAir));
 
         // Act
         controlStatusByTemperature.controlAirConditioner();
