@@ -29,7 +29,7 @@ Este documento fornece uma visão geral e guia de uso da API do projeto Home Ass
    Configuração da chave de API do ipinfo.io
       ipinfo.api.key=59cb1365734f5a <- chave pra teste
 
-###Licença
+### Licença
   Este projeto está licenciado sob a Licença MIT - veja o arquivo LICENSE para mais detalhes.  
-###Contato
+### Contato
   Para mais informações, entre em contato através de mota.natasha.2020@gmail.com.
