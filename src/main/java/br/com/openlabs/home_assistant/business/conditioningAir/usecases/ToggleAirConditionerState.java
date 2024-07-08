@@ -1,7 +1,6 @@
 package br.com.openlabs.home_assistant.business.conditioningAir.usecases;
 
 import br.com.openlabs.home_assistant.infra.persistence.conditioningAir.AirConditionerPersistence;
-import br.com.openlabs.home_assistant.infra.web.MQTTService;
 import org.springframework.stereotype.Service;
 
 
